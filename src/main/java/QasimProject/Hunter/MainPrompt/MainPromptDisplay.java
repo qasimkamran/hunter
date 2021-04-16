@@ -14,49 +14,52 @@ public class MainPromptDisplay {
 
 	private Pane root;
 	private Canvas canvas;
+	private MainPrompt prompt;
 	
 	private int mainIndex, overlayIndex, textIndex;
 	private Text text;
 	
 	private double xpos;
+	private int arrowIndex;
 	
-	public MainPromptDisplay(Canvas canvas, Pane root)
+	public MainPromptDisplay(Pane root, MainPrompt prompt)
 	{
-		this.canvas = canvas;
 		this.root = root;
+		this.prompt = prompt;
 	}
 	
-	public void displayMainPrompt(Rectangle rect)
+	public void displayMainPrompt()
 	{
-		xpos = rect.getX();
+		/*xpos = rect.getX();
 		
 		rect.setStyle("-fx-fill: olive; -fx-stroke: springgreen; -fx-stroke-width: 5;");
 		
 		root.getChildren().add(rect);
-		mainIndex = root.getChildren().size()-1;
+		mainIndex = root.getChildren().size()-1;*/
+		prompt.update();
 	}
 	
-	public void displayPromptText(String displayMessage)
+	/*public void displayPromptText(String displayMessage)
 	{
 		text = new Text();
 		text.setFont(new Font(24));
 		text.setText(displayMessage);
-		text.setLayoutX(xpos +30);
+		text.setLayoutX(xpos +60);
 		text.setLayoutY(368);
 		text.setFill(Color.SPRINGGREEN);
 		root.getChildren().add(text);
 		textIndex = root.getChildren().size()-1;
-	}
+	}*/
 	
 	public void displayNextArrow(Rectangle rect, Image next)
 	{
 		rect.setFill(new ImagePattern(next));
 		root.getChildren().add(rect);
+		arrowIndex = root.getChildren().size()-1;
 	}
 	
-	public void emptyPreviousRectangle()
+	public void emptyPreviousArrow()
 	{
-		root.getChildren().remove(textIndex);
-		root.getChildren().remove(mainIndex);
+		root.getChildren().remove(arrowIndex);
 	}
 }
