@@ -103,7 +103,8 @@ public class MainPrompt extends GameObject{
 	
 	public void addClick(EventHandler<MouseEvent> clickEventHandler)
 	{
-		nextRect.addEventFilter(MouseEvent.MOUSE_CLICKED, clickEventHandler);
+		if(nextRect.getOnMouseClicked() == null)
+			nextRect.addEventFilter(MouseEvent.MOUSE_CLICKED, clickEventHandler);
 	}
 	
 	public void outputMessage()
@@ -159,7 +160,6 @@ public class MainPrompt extends GameObject{
 				x = setXPOS(getDisplayMessageBoundW());
 				y = ypos;
 				img = promptImages.get(i);
-				System.out.println("x: " + x + " y: " + y + " imgRef: " + img);
 				gc.drawImage(img, x, y);
 				break;
 			}

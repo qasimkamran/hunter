@@ -3,15 +3,20 @@ package QasimProject.Hunter.Card;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class FaceDownCard extends Card {
 
-	private FileInputStream imageInputStream;
-
-	public FaceDownCard(double x, double y, String owner) 
+	public FaceDownCard(GraphicsContext gc, double x, double y, String owner) 
 	{
-		super(x, y, owner);
+		super(gc, x, y, owner, "FaceDown");
+		try {
+			imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Cards\\FaceDown1.png");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -25,11 +30,28 @@ public class FaceDownCard extends Card {
 	{
 		return false;
 	}
-
-	public void setBackgroundImage() throws FileNotFoundException 
+	
+	@Override
+	public void readCardInfo()
 	{
-		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Cards\\FaceDown.png");
-		backgroundImage = new Image(imageInputStream, 100, 100, false, false);
+		
+	}
+	
+	@Override
+	public void setText()
+	{
+		
 	}
 
+	@Override
+	public boolean isStackable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void printInfo() {
+		// TODO Auto-generated method stub
+		
+	}
 }

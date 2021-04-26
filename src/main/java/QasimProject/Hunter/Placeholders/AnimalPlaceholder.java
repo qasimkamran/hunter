@@ -1,45 +1,71 @@
 package QasimProject.Hunter.Placeholders;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
+import QasimProject.Hunter.Constants;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class AnimalPlaceholder extends Placeholder{
 
-	private final double ANIMAL_YPOS_CPU = (304 - CARD_HEIGHT);
+	private final double ANIMAL_YPOS_CPU = (304 - Constants.CARD_HEIGHT);
 	private final double ANIMAL_YPOS_P1 = (416);
 	
-	private String owner;
-	private int zone;
-	private boolean vacant = false;
+	private Point2D placeholderPosition;
 	
-	private Rectangle rect, collisionRect;
-	
-	public AnimalPlaceholder(String owner, int zone)
+	public AnimalPlaceholder(GraphicsContext gc, String owner, int zone)
 	{
+		super(gc, 0, 0);
 		this.owner = owner;
 		this.zone = zone;
 	}
 	
+	public Point2D setPosition()
+	{
+		if(owner.equals("CPU"))
+			return placeholderPosition = new Point2D((Constants.XPOS_START_CPU + (-Constants.SPACING * zone) + Constants.SPACING), ANIMAL_YPOS_CPU);
+		else
+			return placeholderPosition = new Point2D((Constants.XPOS_START_P1  + ((Constants.SPACING * zone) - Constants.SPACING)), ANIMAL_YPOS_P1);
+	}
+	
 	public Rectangle getPlaceholderRectangle() 
 	{
-		double spacing = 0.14 * 1280;
-		if(owner.equals("CPU"))
-			return rect = new Rectangle((XPOS_START_CPU + ((-spacing * zone) + spacing)), ANIMAL_YPOS_CPU, CARD_WIDTH, CARD_HEIGHT);
-		else
-			return rect = new Rectangle((XPOS_START_P1  + ((spacing * zone) - spacing)), ANIMAL_YPOS_P1, CARD_WIDTH, CARD_HEIGHT);
+		if(rect == null)
+			return rect = new Rectangle(setPosition().getX(), setPosition().getY(), Constants.CARD_WIDTH, Constants.CARD_HEIGHT);
+		return rect;
 	}
 	
 	public void setCollisionDetectionRectangle()
 	{
-		collisionRect = new Rectangle();
+		if(collisionRect == null) {
+			collisionRect = new Rectangle();
+		}
+		
 		collisionRect.setX(rect.getX() + 30);
 		collisionRect.setY(rect.getY() + 30);
 		collisionRect.setWidth(rect.getWidth() - 60);
 		collisionRect.setHeight(rect.getHeight() - 60);
-		collisionRect.setFill(Color.BLACK);
+		//collisionRect.setFill(Color.BLACK);
+	}
+	
+	public void setBackgroundImage() throws FileNotFoundException
+	{
+		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Placeholder\\Placeholder.png");
+		backgroundImage = new Image(imageInputStream);
+	}
+	
+	public void update()
+	{
+		img = backgroundImage;
+		x = setPosition().getX();
+		y = setPosition().getY();
+		super.update();
 	}
 	
 	public Rectangle getCollisionDetectionRectangle()
