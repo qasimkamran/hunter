@@ -2,6 +2,7 @@ package QasimProject.Hunter.MainPrompt;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import QasimProject.Hunter.GameObject;
 import QasimProject.Hunter.TurnCounter;
@@ -15,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class MainPrompt {
+public class MainPrompt extends GameObject{
 	
 	private String displayMessage = null;
 	private int overlay;
@@ -30,9 +31,18 @@ public class MainPrompt {
 	
 	private TurnCounter turnCounter;
 	
-	public MainPrompt(TurnCounter turnCounter)
+	private ArrayList<Image> promptImages = new ArrayList<>();
+	
+	public MainPrompt(GraphicsContext gc, TurnCounter turnCounter)
 	{
+		super(gc, 0, 0);
 		this.turnCounter = turnCounter;
+		try {
+			setPromptImages();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void outputDraw()
@@ -82,7 +92,7 @@ public class MainPrompt {
 	public Image getNextArrow() throws FileNotFoundException
 	{
 		Image arrow;
-		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\ArrowButton\\Arrow.png");
+		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\ArrowButton\\New\sArrow.png");
 		return arrow = new Image(imageInputStream, 100, 57, false, false);
 	}
 	
@@ -117,6 +127,22 @@ public class MainPrompt {
 				turnCounter.endTurn();
 				break;
 		}
+	}
+	
+	public void setPromptImages() throws FileNotFoundException
+	{
+		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Draw.png");
+		Image image = new Image(imageInputStream);
+		promptImages.add(image);
+		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Set.png");
+		image = new Image(imageInputStream);
+		promptImages.add(image);
+		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Equip.png");
+		image = new Image(imageInputStream);
+		promptImages.add(image);
+		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Engage.png");
+		image = new Image(imageInputStream);
+		promptImages.add(image);
 	}
 	
 	public TurnCounter getTurnCounter()

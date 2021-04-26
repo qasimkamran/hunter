@@ -14,18 +14,22 @@ import javafx.scene.text.Text;
 public class PlayFieldDisplay {
 	
 	private Biome biome;
-	private Canvas canvas;
+	private GraphicsContext gc;
 	
-	public PlayFieldDisplay(Biome biome, Canvas canvas)
+	public PlayFieldDisplay(Biome biome, GraphicsContext gc)
 	{
-		this.canvas = canvas;
+		this.gc = gc;
 		this.biome = biome;
 	}
 
 	public void showBackground()
 	{
-		GraphicsContext backgroundGC = canvas.getGraphicsContext2D();
 		Image background = biome.getRandomBackground();
-		backgroundGC.drawImage(background, 0, 0);
+		gc.drawImage(background, 0, 0);
+	}
+	
+	public void updateBackground()
+	{
+		gc.drawImage(biome.getBackground(), 0, 0);
 	}
 }
