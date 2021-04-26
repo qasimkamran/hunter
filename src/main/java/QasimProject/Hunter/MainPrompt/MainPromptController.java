@@ -2,7 +2,6 @@ package QasimProject.Hunter.MainPrompt;
 
 import java.io.FileNotFoundException;
 
-import QasimProject.Hunter.Screen;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -14,13 +13,11 @@ public class MainPromptController {
 	
 	private MainPrompt prompt;
 	private MainPromptDisplay promptDisplay;
-	private Screen screen;
 	
-	public MainPromptController(MainPrompt prompt, MainPromptDisplay promptDisplay, Screen screen)
+	public MainPromptController(MainPrompt prompt, MainPromptDisplay promptDisplay)
 	{
 		this.prompt = prompt;
 		this.promptDisplay = promptDisplay;
-		this.screen = screen;
 	}
 	
 	private EventHandler<MouseEvent> nextEventHandler = new EventHandler<MouseEvent>() 
@@ -30,12 +27,9 @@ public class MainPromptController {
 		   { 
 			   prompt.getTurnCounter().incrementPhaseCount();;
 			   try {
-				   //promptDisplay.emptyPreviousRectangle();
-				   promptDisplay.emptyPreviousArrow();
-				   screen.refreshStaticBackground();
+				   promptDisplay.emptyPreviousRectangle();
 				   initialisePrompt();
 				   addClickableArrow();
-				   screen.refreshCard();
 				} 
 			   catch (FileNotFoundException e1) {
 				   e1.printStackTrace();
@@ -46,8 +40,9 @@ public class MainPromptController {
 	public void initialisePrompt() throws FileNotFoundException
 	{
 		prompt.getTurnCounter().setPhase();
-		promptDisplay.displayMainPrompt();
-		//promptDisplay.displayPromptText(prompt.getDisplayMessage());
+		prompt.outputMessage();
+		promptDisplay.displayMainPrompt(prompt.getPromptRectangle(prompt.getDisplayMessageBoundW()));
+		promptDisplay.displayPromptText(prompt.getDisplayMessage());
 		promptDisplay.displayNextArrow(prompt.getNextRectangle(prompt.getDisplayMessageBoundW()), prompt.getNextArrow());
 	}
 	
@@ -55,6 +50,4 @@ public class MainPromptController {
 	{
 		prompt.addClick(nextEventHandler);
 	}
-	
-	
 }
