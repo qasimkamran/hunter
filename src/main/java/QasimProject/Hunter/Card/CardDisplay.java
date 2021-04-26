@@ -1,44 +1,54 @@
 package QasimProject.Hunter.Card;
 
+import java.util.ArrayList;
+
+import QasimProject.Hunter.Hand;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class CardDisplay {
 	
-	private Canvas canvas;
 	private Pane root;
+	private ArrayList<Card> cards = new ArrayList<>();
 	
 	private int cardIndex;
 	
-	public CardDisplay(Canvas canvas, Pane root)
+	public CardDisplay(Pane root, Hand hand)
 	{
-		this.canvas = canvas;
 		this.root = root;
+		this.cards = hand.getCards();
 	}
 	
-	public void displayCard(Rectangle rect, Image image)
+	public void displayCard()
 	{
-		rect.setFill(new ImagePattern(image));
-		if(!root.getChildren().contains(rect))
-			root.getChildren().add(rect);
-		cardIndex = root.getChildren().size()-1;
+		for(Card c : cards)
+		{	
+			c.setText();
+			c.getCardRectangle().setFill(Color.TRANSPARENT);
+			if(!root.getChildren().contains(c.getCardRectangle()))
+				root.getChildren().add(c.getCardRectangle());
+			if(!root.getChildren().contains(c.getText()))
+				root.getChildren().add(c.getText());
+			cardIndex = root.getChildren().size()-1;
+			c.update();
+		}
 	}
 	
-	public void displayCard(Rectangle rect)
-	{	
-		if(!root.getChildren().contains(rect))
-			root.getChildren().add(rect);
-		cardIndex = root.getChildren().size()-1;
-	}
-	
-	public void removeCard()
+	public void removeRectangle(Rectangle rect)
 	{
-		root.getChildren().remove(cardIndex);
+		root.getChildren().remove(rect);
+	}
+	
+	public void removeText(Text text)
+	{
+		root.getChildren().remove(text);
 	}
 }

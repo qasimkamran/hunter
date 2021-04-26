@@ -53,13 +53,13 @@ public class MainPromptDisplay {
 	
 	public void displayNextArrow(Rectangle rect, Image next)
 	{
-		rect.setFill(new ImagePattern(next));
+		rect.setFill(Color.TRANSPARENT);
 		root.getChildren().add(rect);
-		arrowIndex = root.getChildren().size()-1;
+		arrowIndex = root.getChildren().size()-2;
 	}
 	
 	public void emptyPreviousArrow()
 	{
-		root.getChildren().remove(arrowIndex);
+		root.getChildren().remove(arrowIndex-1);
 	}
 }
