@@ -1,5 +1,11 @@
 package QasimProject.Hunter;
 
+import java.util.ArrayList;
+
+import QasimProject.Hunter.Card.AnimalCard;
+import QasimProject.Hunter.Card.Card;
+import QasimProject.Hunter.Card.EquipCard;
+import QasimProject.Hunter.Card.FaceDownCard;
 import QasimProject.Hunter.Placeholders.Placeholder;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.Light.Point;
@@ -9,25 +15,14 @@ public class Hand {
 	private String owner;
 	private int length = 3;
 	
-	private final double HAND_YPOS_P1 =  720 - (Placeholder.CARD_HEIGHT/2);
-	private final double HAND_YPOS_CPU =  0 - (Placeholder.CARD_HEIGHT/2);
-	private Point leftMost, middle, rightMost;
-
-	public Hand(String owner)
+	private ArrayList<Card> cards = new ArrayList<>();
+	
+	public Hand(String owner, Card card, Card card2, Card card3)
 	{
 		this.owner = owner;
-		if(owner.equals("P1"))
-		{
-			this.leftMost = new Point(640 - (Placeholder.CARD_WIDTH + (0.025*1280) + (Placeholder.CARD_WIDTH / 2)), HAND_YPOS_P1, 0, null);
-			this.middle = new Point(640 - (Placeholder.CARD_WIDTH/2), HAND_YPOS_P1, 0,null);
-			this.rightMost = new Point(640 + ((0.025*1280) + (Placeholder.CARD_WIDTH / 2)), HAND_YPOS_P1, 0, null);
-		}
-		else
-		{
-			this.leftMost = new Point(640 - (Placeholder.CARD_WIDTH + (0.025*1280) + (Placeholder.CARD_WIDTH / 2)), HAND_YPOS_CPU, 0, null);
-			this.middle = new Point(640 - (Placeholder.CARD_WIDTH/2), HAND_YPOS_CPU, 0,null);
-			this.rightMost = new Point(640 + ((0.025*1280) + (Placeholder.CARD_WIDTH / 2)), HAND_YPOS_CPU, 0, null);	
-		}
+		this.cards.add(card);
+		this.cards.add(card2);
+		this.cards.add(card3);
 	}
 	
 	public void remove()
@@ -39,13 +34,37 @@ public class Hand {
 	{
 		length++;
 	}
-
-	public double getHAND_YPOS_P1() {
-		return HAND_YPOS_P1;
+	
+	public void addToHand(Card card)
+	{
+		cards.add(card);
 	}
 
-	public double getHAND_YPOS_CPU() {
-		return HAND_YPOS_CPU;
+	public void removeFromHand(Card card)
+	{
+		cards.remove(card);
+	}
+	
+	public void setCardTypes()
+	{
+		for(Card c : cards)
+			switch(c.getCardType())
+			{
+				case "Animal":
+					c = (AnimalCard)c;
+					break;
+				case "Equip":
+					c = (EquipCard)c;
+					break;
+				case "FaceDown":
+					c = (FaceDownCard)c;
+					break;
+			}
+	}
+	
+	public ArrayList<Card> getCards()
+	{
+		return cards;
 	}
 	
 	public String getOwner() {
@@ -54,17 +73,5 @@ public class Hand {
 
 	public int getLength() {
 		return length;
-	}
-	
-	public Point getLeftMost() {
-		return leftMost;
-	}
-
-	public Point getMiddle() {
-		return middle;
-	}
-
-	public Point getRightMost() {
-		return rightMost;
 	}
 }
