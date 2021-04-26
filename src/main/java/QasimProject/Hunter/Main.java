@@ -23,9 +23,7 @@ import QasimProject.Hunter.Placeholders.Placeholder;
 import QasimProject.Hunter.Placeholders.PlaceholderController;
 import QasimProject.Hunter.Placeholders.PlaceholderDisplay;
 import QasimProject.Hunter.Placeholders.PlaceholderFactory;
-import QasimProject.Hunter.PlayField.Biome;
 import QasimProject.Hunter.PlayField.PlayField;
-import QasimProject.Hunter.PlayField.PlayFieldDisplay;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -43,13 +41,7 @@ public class Main extends Application{
 	private Scene scene = new Scene(root, 1280, 720);
 	private Canvas canvas = new Canvas(1280, 720);
 	
-	private Screen screen = new Screen();
-	
-	private GraphicsContext gc = canvas.getGraphicsContext2D();
-	
-	private Biome biome = new Biome();
-	private PlayFieldDisplay pfd = new PlayFieldDisplay(biome, gc);
-	private PlayField playFieldController = new PlayField(biome, pfd);
+	private PlayField playFieldController = new PlayField();
 	
 	private TurnCounter turnCounter = new TurnCounter();
 	
@@ -118,7 +110,7 @@ public class Main extends Application{
 		
 		root.getChildren().add(canvas);
 		
-		playFieldController.startDisplay();
+		playFieldController.startDisplay(canvas);
 		
 		playFieldController.initialiseBackground();
 		

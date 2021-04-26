@@ -5,10 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-import QasimProject.Hunter.GameObject;
 import javafx.scene.image.Image;
 
-public class Biome{
+public class Biome {
 
 	private ArrayList<Image> backgrounds = new ArrayList<Image>();
 	
@@ -35,10 +34,5 @@ public class Biome{
 	{
 		int random = (int) (Math.random() * backgrounds.size());
 		return currentBackground = backgrounds.get(random);
-	}
-	
-	public Image getBackground()
-	{
-		return currentBackground;
 	}
 }
