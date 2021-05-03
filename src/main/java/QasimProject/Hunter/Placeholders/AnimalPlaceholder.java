@@ -45,18 +45,16 @@ public class AnimalPlaceholder extends Placeholder{
 	{
 		if(collisionRect == null) {
 			collisionRect = new Rectangle();
-		}
-		
+		}		
 		collisionRect.setX(rect.getX() + 30);
 		collisionRect.setY(rect.getY() + 30);
 		collisionRect.setWidth(rect.getWidth() - 60);
 		collisionRect.setHeight(rect.getHeight() - 60);
-		//collisionRect.setFill(Color.BLACK);
 	}
 	
 	public void setBackgroundImage() throws FileNotFoundException
 	{
-		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Placeholder\\Placeholder.png");
+		FileInputStream imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Placeholder/Placeholder.png");
 		backgroundImage = new Image(imageInputStream);
 	}
 	
@@ -66,16 +64,6 @@ public class AnimalPlaceholder extends Placeholder{
 		x = setPosition().getX();
 		y = setPosition().getY();
 		super.update();
-	}
-	
-	public Rectangle getCollisionDetectionRectangle()
-	{
-		return collisionRect;
-	}
-	
-	public boolean isVacant()
-	{
-		return vacant;
 	}
 
 	public boolean setVacancy(boolean vacancy) 

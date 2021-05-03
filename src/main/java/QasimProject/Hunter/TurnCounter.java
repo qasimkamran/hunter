@@ -1,5 +1,9 @@
 package QasimProject.Hunter;
 
+/*
+ * this class models a turn counter, keeping track of the phase and turns in the game
+ */
+
 public class TurnCounter {
 	
 	private boolean p1Turn;

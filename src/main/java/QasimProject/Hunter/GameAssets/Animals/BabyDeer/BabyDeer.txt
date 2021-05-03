@@ -1,0 +1,5 @@
+BaseStrength-400
+Prey-None
+OtherPrey-0
+Predator-GoldenEagle,SnowyOwl,ArcticFox
+Equip-WildBerry

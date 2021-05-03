@@ -11,6 +11,7 @@ import QasimProject.Hunter.Card.AnimalCard;
 import QasimProject.Hunter.Card.Card;
 import QasimProject.Hunter.Card.CardController;
 import QasimProject.Hunter.Card.CardDisplay;
+import QasimProject.Hunter.Card.CardFactory;
 import QasimProject.Hunter.Card.EquipCard;
 import QasimProject.Hunter.Card.FaceDownCard;
 import QasimProject.Hunter.Graveyard.Graveyard;
@@ -40,7 +41,13 @@ import javafx.stage.Stage;
 public class Main extends Application{
 	
 	private Pane root = new Pane();
+	private Pane root2 = new Pane();
+	private Pane root3 = new Pane();
+	
 	private Scene scene = new Scene(root, 1280, 720);
+	private Scene scene2 = new Scene(root2, 1280, 720);
+	private Scene scene3 = new Scene(root3, 1280, 720);
+	
 	private Canvas canvas = new Canvas(1280, 720);
 	
 	private Screen screen = new Screen();
@@ -53,34 +60,37 @@ public class Main extends Application{
 	
 	private TurnCounter turnCounter = new TurnCounter();
 	
-	private Log gameLog = new Log("Welcome to hunter!");
+	private Log log = new Log("Welcome to hunter!");
 	
-	private PlaceholderFactory factoryCPU = new PlaceholderFactory(gc, "CPU");
-	private PlaceholderFactory factoryP1 = new PlaceholderFactory(gc, "P1");
+	private PlaceholderFactory placeholderFactoryCPU = new PlaceholderFactory(gc, "CPU");
+	private PlaceholderFactory placeholderFactoryP1 = new PlaceholderFactory(gc, "P1");
 	
 	private PlaceholderDisplay placeholderDisplay = new PlaceholderDisplay(root);
-	private PlaceholderController placeholderController = new PlaceholderController(factoryCPU, factoryP1, placeholderDisplay);
+	private PlaceholderController placeholderController = new PlaceholderController(placeholderFactoryCPU, placeholderFactoryP1, placeholderDisplay);
 	
 	private MainPrompt prompt = new MainPrompt(gc, turnCounter);
 	private MainPromptDisplay promptDisplay = new MainPromptDisplay(root, prompt);
-	private MainPromptController promptController = new MainPromptController(prompt, promptDisplay, gameLog, screen);
+	private MainPromptController promptController = new MainPromptController(prompt, promptDisplay, log, screen);
 	
-	private Card p1Card = new AnimalCard(gc, Constants.HAND_XPOS_LEFTMOST, Constants.HAND_YPOS_P1,"P1", "GoldenEagle");	
-	private Card p1Card2 = new EquipCard(gc, Constants.HAND_XPOS_MIDDLE, Constants.HAND_YPOS_P1, "P1", "LargeWingSpan");
-	private Card p1Card3 = new AnimalCard(gc, Constants.HAND_XPOS_RIGHTMOST, Constants.HAND_YPOS_P1, "P1", "SnowyOwl");
+	private CardFactory cardFactoryP1 = new CardFactory(gc, "P1");
+	private CardFactory cardFactoryCPU = new CardFactory(gc, "CPU");
 	
-	private Card cpuCard = new FaceDownCard(gc, Constants.HAND_XPOS_LEFTMOST, Constants.HAND_YPOS_CPU, "CPU");
-	private Card cpuCard2 = new AnimalCard(gc, Constants.HAND_XPOS_MIDDLE, Constants.HAND_YPOS_CPU, "CPU", "ArcticFox");
-	private Card cpuCard3 = new FaceDownCard(gc, Constants.HAND_XPOS_RIGHTMOST, Constants.HAND_YPOS_CPU, "CPU");
+	private Card p1Card = cardFactoryP1.initialiseCard("Animal", "BabyDeer", 1);
+	private Card p1Card2 = cardFactoryP1.initialiseCard("Equip", "LargeWingSpan", 2);
+	private Card p1Card3 = cardFactoryP1.initialiseCard("Animal", "SnowyOwl", 3);
+	
+	private Card cpuCard = cardFactoryCPU.initialiseCard("Facedown", "", 1);
+	private Card cpuCard2 = cardFactoryCPU.initialiseCard("Animal", "ArcticFox", 2);
+	private Card cpuCard3 = cardFactoryCPU.initialiseCard("Facedown", "", 3);
 	
 	private Hand p1Hand = new Hand("P1", p1Card, p1Card2, p1Card3);
 	private Hand cpuHand = new Hand("CPU", cpuCard, cpuCard2, cpuCard3);
 	
 	private CardDisplay cardDisplay = new CardDisplay(root, p1Hand);
-	private CardController cardController = new CardController(p1Hand, cardDisplay, gameLog, turnCounter, screen);
+	private CardController cardController = new CardController(p1Hand, cardDisplay, log, turnCounter, screen);
 	
 	private CardDisplay cardDisplay2 = new CardDisplay(root, cpuHand);
-	private CardController cardController2 = new CardController(cpuHand, cardDisplay2, gameLog, turnCounter, screen);
+	private CardController cardController2 = new CardController(cpuHand, cardDisplay2, log, turnCounter, screen);
 	
 	private Graveyard graveyardP1 = new Graveyard(gc, 0, 0, "P1");
 	private Graveyard graveyardCPU = new Graveyard(gc, 0, 0, "CPU");
@@ -106,17 +116,34 @@ public class Main extends Application{
 		screen.setPromptController(promptController);
 		screen.setGraveyardController(graveyardController);
 		screen.setGraveyardController2(graveyardController2);
+				
+		MainMenu mainScreen = new MainMenu(root2, primaryStage, scene, scene3);	
 		
-		p1Card.readCardInfo();
-		p1Card.printInfo();
-		p1Card2.readCardInfo();
-		cpuCard2.readCardInfo();
+		Tutorial howToPlay = new Tutorial(root3, primaryStage, scene2);	
 		
-		primaryStage.setScene(scene);
+		primaryStage.setScene(scene2);
+		
+		primaryStage.setTitle("Hunter");
 		
 		primaryStage.show();
 		
 		root.getChildren().add(canvas);
+			
+		mainScreen.setBackground();
+		
+		mainScreen.setButtons();
+		
+		mainScreen.setClickEvents();
+		
+		howToPlay.setBaackground();
+		
+		howToPlay.setBackButton();
+		
+		howToPlay.setText();
+		
+		cardController.readCardInfo();
+		
+		cardController2.readCardInfo();
 		
 		playFieldController.startDisplay();
 		
@@ -134,15 +161,17 @@ public class Main extends Application{
 		
 		cardController.addDragableCard();
 		
+		cardController.setFieldCard(p1Card, 1, "P1", 0);
+		
 		cardController2.initialiseCard();
 		
-		cardController2.setFieldCard(cpuCard2, 1);
+		cardController2.setFieldCard(cpuCard2, 1, "CPU", 0);
 		
 		graveyardController.initialiseGraveyard();
 		
 		graveyardController2.initialiseGraveyard();
 		
-		gameLog.addToRoot(root);
+		log.addToRoot(root);
 	}
 
 }

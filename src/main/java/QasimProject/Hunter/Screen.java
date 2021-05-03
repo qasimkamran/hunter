@@ -9,6 +9,11 @@ import QasimProject.Hunter.MainPrompt.MainPromptController;
 import QasimProject.Hunter.Placeholders.PlaceholderController;
 import QasimProject.Hunter.PlayField.PlayField;
 
+/*
+ * models the refresh of drawable objects on any one update.
+ * it also acts as a hub giving access to some controllers through it.
+ */
+
 public class Screen {
 	
 	private PlayField playFieldController;
@@ -57,6 +62,7 @@ public class Screen {
 		this.engage = engage;
 	}
 	
+	//refreshes all drawable objects that remain static after the first initialisation
 	public void refreshStaticBackground() throws FileNotFoundException
 	{
 		playFieldController.startDisplay();
@@ -66,30 +72,62 @@ public class Screen {
 		graveyardController2.initialiseGraveyard();
 	}
 	
+	//refreshes the prompt and clickable arrow involved with each message
 	public void refreshPrompt() throws FileNotFoundException
 	{
 		promptController.initialisePrompt();
 		promptController.addClickableArrow();
 	}
 	
+	//refreshes all p1 cards
 	public void refreshCard() throws FileNotFoundException
 	{
 		cardController.initialiseCard();
 		cardController.addDragableCard();
 	}
 	
+	//refreshes all cpu cards
 	public void refreshCPUCard() throws FileNotFoundException
 	{
 		cardController2.initialiseCard();
 	}
 	
+	public void incrementGraveyard()
+	{
+		graveyardController.incrementGraveCounter();
+	}
+	
+	public void incrementGraveyard2()
+	{
+		graveyardController2.incrementGraveCounter();
+	}
+	
+	//calls remove card from card controller based on the result of an engagement
+	//updates the grave counter on the corresponding side of the field
 	public void engage()
 	{
 		Card cardForRemoval  = engage.getVictim(engage.getStrongestCard());
 		if(cardForRemoval!=null)
 			if(cardForRemoval.getOwner().equals("CPU"))
-				cardController2.removeCard(cardForRemoval);
+			{
+				graveyardController2.incrementGraveCounter();
+				cardController2.removeCard(cardForRemoval);	
+			}
 			else
-				cardController.removeCard(cardForRemoval);
+			{
+				graveyardController.incrementGraveCounter();
+				cardController.removeCard(cardForRemoval);		
+			}
+		else
+			engage.noEngagement();
+	}
+
+	//returns true if win condition has been met and false otherwise
+	public boolean getWinCondition()
+	{
+		if(graveyardController2.getCount()>0)
+			return true;
+		else
+			return false;
 	}
 }

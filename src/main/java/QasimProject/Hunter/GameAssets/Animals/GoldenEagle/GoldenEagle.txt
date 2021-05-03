@@ -1,0 +1,5 @@
+BaseStrength-1300
+Prey-ArcticFox,SnowyOwl
+OtherPrey-150
+Predator-GreatHornedOwl
+Equip-LargeWingSpan

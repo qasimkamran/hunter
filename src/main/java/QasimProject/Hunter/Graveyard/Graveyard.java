@@ -25,7 +25,7 @@ public class Graveyard extends GameObject{
 		this.owner = owner;
 		FileInputStream imageInputStream = null;
 		try {
-			imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Cards\\FaceDown1.png");
+			imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"/Placeholder/Graveyard.png");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class Graveyard extends GameObject{
 		counter.setFont(new Font(100));
 		counter.setFill(Color.WHITE);
 		counter.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 3px");
-		counter.setText("0");
+		counter.setText((count == 0) ? "0" : ""+count);
 		counter.setX(x + 45);
 		if(owner.equals("CPU"))
 		{
@@ -77,7 +77,7 @@ public class Graveyard extends GameObject{
 		super.update();
 	}
 
-	public int getCounter()
+	public int getCount()
 	{
 		return count;
 	}

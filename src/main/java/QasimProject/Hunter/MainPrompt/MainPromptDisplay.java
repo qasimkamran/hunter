@@ -13,13 +13,7 @@ import javafx.scene.text.Text;
 public class MainPromptDisplay {
 
 	private Pane root;
-	private Canvas canvas;
 	private MainPrompt prompt;
-	
-	private int mainIndex, overlayIndex, textIndex;
-	private Text text;
-	
-	private double xpos;
 	private int arrowIndex;
 	
 	public MainPromptDisplay(Pane root, MainPrompt prompt)

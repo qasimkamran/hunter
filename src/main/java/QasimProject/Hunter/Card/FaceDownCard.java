@@ -3,8 +3,13 @@ package QasimProject.Hunter.Card;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import QasimProject.Hunter.Constants;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+/*
+ * FacedownCard extends Card and is involved with representing empty face downs in the game 
+ */
 
 public class FaceDownCard extends Card {
 
@@ -12,7 +17,7 @@ public class FaceDownCard extends Card {
 	{
 		super(gc, x, y, owner, "FaceDown");
 		try {
-			imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Cards\\FaceDown1.png");
+			imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Cards/FaceDown1.png");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -44,6 +44,15 @@ public class MainPromptController {
 					   gameScreen.setEngage(engage);
 					   gameScreen.engage();
 				   }
+				   if(prompt.getTurnCounter().getPhase().equals("End"))
+				   {
+					   if(gameScreen.getWinCondition())
+						   prompt.setOutcome(true);
+					   else
+						   prompt.setOutcome(false);   
+					   initialisePrompt();
+					   addClickableArrow();
+				   }
 				   gameScreen.refreshCard();
 				   gameScreen.refreshCPUCard();
 				} 
