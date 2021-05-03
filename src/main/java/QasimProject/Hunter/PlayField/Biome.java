@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import QasimProject.Hunter.Constants;
 import QasimProject.Hunter.GameObject;
 import javafx.scene.image.Image;
 
@@ -18,11 +19,11 @@ public class Biome{
 	{
 		if(backgrounds.isEmpty())
 		{
-			FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Backgrounds\\Mountains.png");
+			FileInputStream imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Backgrounds/Mountains.png");
 			Image mountain = new Image(imageInputStream, 1280, 720, false, false);
-			imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Backgrounds\\Swamp.png");
+			imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Backgrounds/Swamp.png");
 			Image swamp = new Image(imageInputStream, 1280, 720, false, false);
-			imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Backgrounds\\Desert.png");
+			imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Backgrounds/Desert.png");
 			Image desert = new Image(imageInputStream, 1280, 720, false, false);
 			
 			backgrounds.add(desert);

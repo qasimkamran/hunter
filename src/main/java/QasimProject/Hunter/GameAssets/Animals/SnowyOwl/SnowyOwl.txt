@@ -1,0 +1,5 @@
+BaseStrength-800
+Prey-ArcticFox
+OtherPrey-300
+Predator-GoldenEagle,ArcticFox
+Equip-LargeWingSpan

@@ -12,22 +12,35 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Placeholder extends GameObject{
+	
 	protected String owner;
 	protected int zone;
 	protected boolean vacant = false;
 	protected AnimalCard assignedCard;
 	protected Rectangle rect, collisionRect;
 	protected Image backgroundImage;
+	
 	public Placeholder(GraphicsContext gc, double x, double y) 
 	{
 		super(gc, x, y);
 	}
+	
 	public abstract Rectangle getPlaceholderRectangle();
-	public abstract boolean isVacant();
+	
+	public boolean isVacant()
+	{
+		return vacant;
+	}
+	
 	public abstract boolean setVacancy(boolean vacancy);
 	public abstract void setBackgroundImage() throws FileNotFoundException;
 	public abstract void setCollisionDetectionRectangle();
-	public abstract Rectangle getCollisionDetectionRectangle();
+	
+	public Rectangle getCollisionDetectionRectangle()
+	{
+		return collisionRect;
+	}
+	
 	public void setCard(AnimalCard card)
 	{
 		this.assignedCard = card;

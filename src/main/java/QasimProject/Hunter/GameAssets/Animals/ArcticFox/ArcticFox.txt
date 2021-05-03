@@ -1,0 +1,5 @@
+BaseStrength-900
+Prey-Lemming,BabyDeer
+OtherPrey-200
+Predator-GoldenEagle,SnowyOwl
+Equip-WildBerry

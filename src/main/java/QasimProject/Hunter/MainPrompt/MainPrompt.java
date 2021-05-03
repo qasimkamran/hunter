@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import QasimProject.Hunter.Constants;
 import QasimProject.Hunter.GameObject;
 import QasimProject.Hunter.TurnCounter;
 import javafx.application.Application;
@@ -32,6 +33,10 @@ public class MainPrompt extends GameObject{
 	private TurnCounter turnCounter;
 	
 	private ArrayList<Image> promptImages = new ArrayList<>();
+	
+	private Image pass, fail;
+	
+	private boolean passed;
 	
 	public MainPrompt(GraphicsContext gc, TurnCounter turnCounter)
 	{
@@ -65,6 +70,11 @@ public class MainPrompt extends GameObject{
 		displayMessage = "Engage!";
 	}
 	
+	public void outputEnd()
+	{
+		displayMessage = "End Turn";
+	}
+	
 	public double setXPOS(double width)
 	{
 		double totalWidth = width + 200;
@@ -92,7 +102,7 @@ public class MainPrompt extends GameObject{
 	public Image getNextArrow() throws FileNotFoundException
 	{
 		Image arrow;
-		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\ArrowButton\\New\sArrow.png");
+		FileInputStream imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"ArrowButton/New\sArrow.png");
 		return arrow = new Image(imageInputStream, 100, 57, false, false);
 	}
 	
@@ -124,6 +134,7 @@ public class MainPrompt extends GameObject{
 				outputEngage();
 				break;
 			default:
+				outputEnd();
 				turnCounter.endTurn();
 				break;
 		}
@@ -131,18 +142,22 @@ public class MainPrompt extends GameObject{
 	
 	public void setPromptImages() throws FileNotFoundException
 	{
-		FileInputStream imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Draw.png");
+		FileInputStream imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Draw.png");
 		Image image = new Image(imageInputStream);
 		promptImages.add(image);
-		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Set.png");
+		imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Set.png");
 		image = new Image(imageInputStream);
 		promptImages.add(image);
-		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Equip.png");
+		imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Equip.png");
 		image = new Image(imageInputStream);
 		promptImages.add(image);
-		imageInputStream = new FileInputStream("D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Prompt\\Engage.png");
+		imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Engage.png");
 		image = new Image(imageInputStream);
 		promptImages.add(image);
+		imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Pass.png");
+		pass = new Image(imageInputStream);
+		imageInputStream = new FileInputStream(Constants.ABSOLUTE_PATH+"Prompt/Fail.png");
+		fail = new Image(imageInputStream);
 	}
 	
 	public TurnCounter getTurnCounter()
@@ -150,18 +165,34 @@ public class MainPrompt extends GameObject{
 		return turnCounter;
 	}
 	
+	public void setOutcome(boolean passed)
+	{
+		this.passed = passed;
+	}
+	
 	public void update()
 	{
 		//System.out.println("x: " + x + " y: " + y + " imgRef: " + img + " phaseCount: " + turnCounter.getPhaseCount() + " promptImages.size(): " + promptImages.size());
 		for(int i=0; i<promptImages.size(); i++)
 			if(turnCounter.getPhaseCount() == i)
-			{
+			{	
 				outputMessage();
 				x = setXPOS(getDisplayMessageBoundW());
-				y = ypos;
+				y = ypos;	
 				img = promptImages.get(i);
-				gc.drawImage(img, x, y);
+				super.update();
 				break;
 			}
+		if(turnCounter.getPhase().equals("End"))
+		{
+			outputMessage();
+			x = setXPOS(getDisplayMessageBoundW());
+			y = ypos;	
+			if(passed==true)
+				img = pass;
+			else
+				img = fail;
+			super.update();
+		}
 	}
 }

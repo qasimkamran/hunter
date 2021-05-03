@@ -19,18 +19,20 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/*
+ * AnimalCard extends Card and is involved with representing animal cards in the game
+ */
+
 public class AnimalCard extends Card{
 
-	private String animalType;
 	private String animal;
 	
 	private int baseStrength;
 	private int otherPrey;
 	
 	private int finalStrength;
-	private int fatigueFactor = 0;
-	private int equipValue;
-		
+	
+	//the following ArrayLists store predators, prey and equips that are applicable to an instance of an animal
 	private ArrayList<String> predators = new ArrayList<>();
 	private ArrayList<String> prey = new ArrayList<>();
 	private ArrayList<String> equips = new ArrayList<>();
@@ -40,7 +42,7 @@ public class AnimalCard extends Card{
 		super(gc, x, y, owner, animal);
 		this.animal = animal;
 		try {
-			String sourceDir = "D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Animals\\" + animal + "\\";
+			String sourceDir = Constants.ABSOLUTE_PATH+"Animals/" + animal + "/";
 			String imgSourceDir = sourceDir + animal + "C.png";
 			if(owner.equals("CPU"))
 				imgSourceDir = sourceDir + animal + "CC.png";
@@ -65,6 +67,7 @@ public class AnimalCard extends Card{
 		return true;
 	}
 	
+	//sets text on the card based on calculated final strength
 	@Override
 	public void setText()
 	{
@@ -81,11 +84,7 @@ public class AnimalCard extends Card{
 		}
 	}
 	
-	public void addEquipText(int positiveBonus)
-	{
-		finalStrength = baseStrength + positiveBonus;
-	}
-	
+	//reads card info from the relevant text file for animals
 	public void readCardInfo()
 	{
 		scanner.useDelimiter("-");
@@ -155,19 +154,19 @@ public class AnimalCard extends Card{
 		return finalStrength;
 	}
 	
-	public void addFatigue()
+	public void addFatigue(int fatigueFactor)
 	{
-		finalStrength = baseStrength - (100*fatigueFactor);
+		finalStrength -= (100*fatigueFactor);
 	}
 	
-	public void addEquip()
+	public void addEquip(int positiveBonus)
 	{
-		finalStrength += equipValue;
+		finalStrength += positiveBonus;
 	}
 
 	@Override
 	public boolean isStackable() 
 	{
-		return false;
+		return true;
 	}
 }

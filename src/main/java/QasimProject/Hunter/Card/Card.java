@@ -23,6 +23,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/*
+ * this class models a card and extends GameObject.
+ * all basic features and attributes of a card are implemented in this class.
+ */
+
 public abstract class Card extends GameObject{
 	
 	protected String cardName;
@@ -44,6 +49,7 @@ public abstract class Card extends GameObject{
 		this.cardName = cardName;
 	}
 	
+	//the following methods require implementation from their relevant subclasses
 	public abstract String getCardType();
 	public abstract boolean isPlayable();
 	public abstract void readCardInfo();
@@ -64,6 +70,7 @@ public abstract class Card extends GameObject{
 		return cardImage;
 	}
 	
+	//effectively undos all translation from an initial position for a card
 	public void snapToOrigin()
 	{
 		rect.setTranslateX(-1 * rect.getLayoutX());
@@ -77,14 +84,15 @@ public abstract class Card extends GameObject{
 		return rect; 
 	}
 	
+	//returns a translated version of the cards rectangle
 	public Rectangle getCardRectangle(double dX, double dY) 
 	{
 		rect.setTranslateX(dX);
 		rect.setTranslateY(dY);
-		//System.out.println("getTX: " + rect.getTranslateX() + " getLX: " + rect.getLayoutX() + " getTY: " + rect.getTranslateY() + " getLY: " + rect.getLayoutY());
 		return rect; 
 	}
 	
+	//returns a translated version of the text assigned to this card
 	public Text getText(double dX, double dY)
 	{
 		text.setTranslateX(dX);
@@ -94,6 +102,7 @@ public abstract class Card extends GameObject{
 	
 	public abstract void setText();
 	
+	//adds all event handlers associated with a the drag feature to the card's rectangle
 	public void addDrag(Rectangle rect, EventHandler<MouseEvent> pressEventHandler, EventHandler<MouseEvent> dragEventHandler, EventHandler<MouseEvent> releaseEventHandler)
 	{
 		if(!mousePressedHandlerAdded) {
@@ -156,9 +165,6 @@ public abstract class Card extends GameObject{
 	{
 		x = dX;
 		y = dY;
-		System.out.println("x: " + x + " y: " + y);
-		System.out.println("getTranslateX: " + rect.getTranslateX() + " getTranslateY: " + rect.getTranslateY());
-		System.out.println("dX: " + dX + " dY: " + dY);
 	}
 	
 	public String getOwner()
@@ -173,6 +179,7 @@ public abstract class Card extends GameObject{
 	
 	public abstract void printInfo();
 
+	//removes all assigned event handlers related with the drag feature, from the cards rectangle object
 	public void removeDrag(Rectangle cardRectangle, EventHandler<MouseEvent> pressEventHandler,	EventHandler<MouseEvent> dragEventHandler, EventHandler<MouseEvent> releaseEventHandler) 
 	{
 		rect.removeEventFilter(MouseEvent.MOUSE_PRESSED, pressEventHandler);

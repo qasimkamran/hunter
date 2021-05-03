@@ -17,4 +17,15 @@ public class GraveyardController {
 		graveyard.setCounter();
 		graveyardDisplay.displayGraveyard();
 	}
+	
+	public void incrementGraveCounter()
+	{
+		graveyard.increment();
+		graveyardDisplay.displayGraveyard();
+	}
+	
+	public int getCount()
+	{
+		return graveyard.getCount();
+	}
 }

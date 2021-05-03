@@ -4,6 +4,10 @@ import java.util.Comparator;
 
 import QasimProject.Hunter.Card.AnimalCard;
 
+/*
+ * acts as a comparator for final strength when comparing animal cards
+ */
+
 public class StrengthSorter implements Comparator<AnimalCard>{
 
 	@Override

@@ -11,6 +11,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 
+/*
+ * EquipCard extends Card and is involved with representing equip cards in the game
+ */
+
 public class EquipCard extends Card{
 
 	private int positiveBonus;
@@ -19,7 +23,7 @@ public class EquipCard extends Card{
 	{
 		super(gc, x, y, owner, equip);
 		try {
-			String sourceDir = "D:\\Uni Docs\\Design Patterns\\Assignment\\Images\\Equip\\" + equip + "\\";
+			String sourceDir = Constants.ABSOLUTE_PATH+"Equip/" + equip + "/";
 			String imgSourceDir = sourceDir + equip + "C.png";
 			System.out.println(imgSourceDir);
 			String textSourceDir = sourceDir + equip + ".txt";
@@ -51,6 +55,7 @@ public class EquipCard extends Card{
 		positiveBonus = scanner.nextInt();
 	}
 	
+	//sets text on the card based on the positive bonus assigned to this instance
 	@Override
 	public void setText()
 	{

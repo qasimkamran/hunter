@@ -27,6 +27,10 @@ public class CardDisplay {
 		this.cards = hand.getCards();
 	}
 	
+	/*
+	 * adds all unadded objects associated with card to the pane
+	 * updates the drawable images associated with card 
+	 */
 	public void displayCard()
 	{
 		for(Card c : cards)
@@ -42,11 +46,13 @@ public class CardDisplay {
 		}
 	}
 	
+	//removes card rectangle from the pane
 	public void removeRectangle(Rectangle rect)
 	{
 		root.getChildren().remove(rect);
 	}
 	
+	//remove card text object from the pnae 
 	public void removeText(Text text)
 	{
 		root.getChildren().remove(text);

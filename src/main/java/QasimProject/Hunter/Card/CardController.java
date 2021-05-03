@@ -42,6 +42,10 @@ public class CardController {
 		this.gameScreen = gameScreen;
 	}
 
+	/*
+	 * click event that activates when a card is selected (clicked on)
+	 * assigns the initial position of the mouse at that instance to the related fields.
+	 */
 	private EventHandler<MouseEvent> cardPressEventHandler = new EventHandler<MouseEvent>() 
 	{
 		@Override
@@ -143,9 +147,12 @@ public class CardController {
 							EquipCard equip = (EquipCard) card;
 							if(!p.isVacant())
 							{
-								p.getCard().addEquipText(equip.getPositiveBonus());
-								log.addEquipText(p.getCard(), equip);
-								removeCard(card);
+								if(p.getCard().getEquips().contains(equip.getCardName()))
+								{
+									p.getCard().addEquip(equip.getPositiveBonus());
+									log.addEquipText(p.getCard(), equip);
+									removeCard(card);
+								}
 								//cardDisplay.displayCard();
 							}
 						}
@@ -189,6 +196,12 @@ public class CardController {
 			cardDisplay.displayCard();
 		}
 	}
+	
+	public void readCardInfo()
+	{
+		for(Card c : cards)
+			c.readCardInfo();
+	}
 
 	public void addDragableCard() 
 	{
@@ -220,16 +233,22 @@ public class CardController {
 	
 	public void removeCard(Card card)
 	{
+		for(Placeholder p : PlaceholderController.placeholders)
+			if(p.getCard()!=null && p.getCard().equals(card))
+				p.setCard(null);
 		cardDisplay.removeRectangle(card.getCardRectangle());
 		cardDisplay.removeText(card.getText());
 		hand.removeFromHand(card);
 	}
 	
-	public void setFieldCard(Card card, int zone)
+	public void setFieldCard(Card card, int zone, String owner, int fatigueFactor)
 	{
+		log.addSetText(card);
+		if(fatigueFactor>0)
+			log.addFatigue(card, fatigueFactor);
 		Placeholder p = null;
 		for(int i=0; i<PlaceholderController.placeholders.size(); i++)
-			if(PlaceholderController.placeholders.get(i).getZone() == zone && PlaceholderController.placeholders.get(i).getOwner().equals("CPU"))
+			if(PlaceholderController.placeholders.get(i).getZone() == zone && PlaceholderController.placeholders.get(i).getOwner().equals(owner))
 				p = PlaceholderController.placeholders.get(i);
 		try {
 			gameScreen.refreshStaticBackground();
@@ -259,7 +278,10 @@ public class CardController {
 		//isInPlaceHolder = true;
 		p.setVacancy(false);
 		if(!p.isVacant())
-			p.setCard((AnimalCard)card);
+		{
+			p.setCard((AnimalCard)card);		
+			p.getCard().addFatigue(fatigueFactor);
+		}
 		//if(!p.isVacant())
 			//p.setCard(card);
 	}
